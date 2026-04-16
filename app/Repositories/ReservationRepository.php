@@ -18,6 +18,11 @@ class ReservationRepository implements ReservationRepositoryInterface
         return $reservation->save();
     }
 
+    public function create(array $data): Reservation
+    {
+        return Reservation::query()->create($data);
+    }
+
     public function expireDueReservations(): Collection
     {
         $now = now();
@@ -36,4 +41,50 @@ class ReservationRepository implements ReservationRepositoryInterface
 
         return $expired;
     }
+
+    public function lockedForReservations(): Collection
+    {
+        return Reservation::query()
+            ->whereIn('status', ['holding', 'confirmed'])
+            ->lockForUpdate()
+            ->get();
+    }
+
+    /**
+     * Cek apakah user sudah punya reservasi holding/confirmed untuk seat tertentu.
+     * Digunakan untuk mencegah user memesan kursi yang sama dua kali.
+     */
+    public function findActiveByUserAndSeat(int $userId, int $seatId): ?Reservation
+    {
+        return Reservation::query()
+            ->where('user_id', $userId)
+            ->where('seat_id', $seatId)
+            ->whereIn('status', ['holding', 'confirmed'])
+            ->first();
+    }
+
+    /**
+     * Ambil semua reservasi milik user beserta relasi seat.
+     */
+    public function findByUser(int $userId): Collection
+    {
+        return Reservation::query()
+            ->where('user_id', $userId)
+            ->with(['seat', 'payment', 'ticket'])
+            ->latest()
+            ->get();
+    }
+
+    /**
+     * Cari reservasi berdasarkan ID dan pastikan milik user ini.
+     */
+    public function findByIdAndUser(int $id, int $userId): ?Reservation
+    {
+        return Reservation::query()
+            ->where('id', $id)
+            ->where('user_id', $userId)
+            ->with(['seat', 'payment', 'ticket'])
+            ->first();
+    }
 }
+

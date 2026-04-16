@@ -10,7 +10,7 @@ class SeatRepository implements SeatRepositoryInterface
     public function getAvailableSeats($venueId, $category = null)
     {
         $query = Seat::where('venue_id', $venueId)->where('status', 'available');
-        
+
         if ($category) {
             $query->where('category', $category);
         }
@@ -18,20 +18,30 @@ class SeatRepository implements SeatRepositoryInterface
         return $query->get();
     }
 
-    public function updateStatus($seatId, $status)
+    public function updateStatus($seatId, $status): Seat
     {
         $seat = Seat::findOrFail($seatId);
         $seat->update(['status' => $status]);
         return $seat;
     }
 
-    public function findById($seatId)
+    public function findById($seatId): ?Seat
     {
-        return Seat::findOrFail($seatId);
+        return Seat::find($seatId);
     }
-    
+
     public function getByVenue($venueId)
     {
         return Seat::where('venue_id', $venueId)->get();
     }
+
+    /**
+     * SELECT ... FOR UPDATE — harus dipanggil dalam DB::transaction().
+     * Mencegah dua request mengambil seat yang sama secara bersamaan.
+     */
+    public function findByIdForUpdate(int $seatId): ?Seat
+    {
+        return Seat::query()->lockForUpdate()->find($seatId);
+    }
 }
+
