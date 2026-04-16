@@ -24,6 +24,11 @@ class Reservation extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function seat(): BelongsTo
+    {
+        return $this->belongsTo(Seat::class);
+    }
+
     public function payment(): HasOne
     {
         return $this->hasOne(Payment::class);

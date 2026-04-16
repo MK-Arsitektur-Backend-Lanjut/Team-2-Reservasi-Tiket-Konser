@@ -5,13 +5,15 @@ namespace App\Providers;
 use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Repositories\Interfaces\ReservationRepositoryInterface;
 use App\Repositories\Interfaces\TicketRepositoryInterface;
+use App\Repositories\Interfaces\VenueRepositoryInterface;
+use App\Repositories\Interfaces\SeatRepositoryInterface;
+use App\Repositories\Interfaces\QueueTokenRepositoryInterface;
 use App\Repositories\PaymentRepository;
 use App\Repositories\ReservationRepository;
 use App\Repositories\TicketRepository;
-use App\Repositories\Interfaces\VenueRepositoryInterface;
-use App\Repositories\Interfaces\SeatRepositoryInterface;
 use App\Repositories\VenueRepository;
 use App\Repositories\SeatRepository;
+use App\Repositories\QueueTokenRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TicketRepositoryInterface::class, TicketRepository::class);
         $this->app->bind(VenueRepositoryInterface::class, VenueRepository::class);
         $this->app->bind(SeatRepositoryInterface::class, SeatRepository::class);
+        $this->app->bind(QueueTokenRepositoryInterface::class, QueueTokenRepository::class);
     }
 
     /**
