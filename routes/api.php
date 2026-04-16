@@ -10,7 +10,16 @@ Route::prefix('auth')->group(function (): void {
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 });
 
+use App\Http\Controllers\Api\VenueController;
+use App\Http\Controllers\Api\SeatController;
+
 Route::middleware('auth:sanctum')->group(function (): void {
+    // Venue & Seat
+    Route::get('/venues', [VenueController::class, 'index']);
+    Route::get('/venues/{id}', [VenueController::class, 'show']);
+    Route::get('/venues/{venueId}/seats', [SeatController::class, 'index']);
+    
+    // Payments & Tickets
     Route::post('/payments/pay', [PaymentController::class, 'pay']);
     Route::get('/tickets/{reservation}', [TicketController::class, 'showByReservation']);
 });
