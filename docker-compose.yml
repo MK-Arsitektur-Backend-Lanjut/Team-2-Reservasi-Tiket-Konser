@@ -36,6 +36,21 @@ services:
     networks:
       - konser_network
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: konser_pma
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "8081:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - konser_network
+
 networks:
   konser_network:
     driver: bridge

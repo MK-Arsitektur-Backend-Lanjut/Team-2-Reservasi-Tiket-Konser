@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('venue_id')->constrained()->cascadeOnDelete();
             $table->string('token')->unique();
             $table->timestamp('used_at')->nullable();
-            $table->timestamp('expired_at');
+            $table->timestamp('expired_at')->nullable();
             $table->timestamps();
 
             $table->index(['user_id', 'venue_id']);
