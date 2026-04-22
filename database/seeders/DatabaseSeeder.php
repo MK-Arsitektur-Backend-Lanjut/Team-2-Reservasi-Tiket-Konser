@@ -23,6 +23,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             VenueSeeder::class,
             SeatSeeder::class,
+            UserSeeder::class,
+            QueueTokenSeeder::class,
+            ReservationSeeder::class,
         ]);
     }
 }
