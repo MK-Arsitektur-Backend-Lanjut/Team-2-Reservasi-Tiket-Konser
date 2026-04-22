@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             QueueTokenSeeder::class,
             ReservationSeeder::class,
+            PaymentSeeder::class,
+            TicketSeeder::class,
         ]);
     }
 }
