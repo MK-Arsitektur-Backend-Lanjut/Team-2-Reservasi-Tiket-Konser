@@ -19,6 +19,12 @@ return new class extends Migration
             $table->decimal('price', 15, 2);
             $table->enum('status', ['available', 'hold', 'sold'])->default('available');
             $table->timestamps();
+
+            // Optimasi performa untuk Modul 1:
+            // Menambahkan composite index untuk kolom yang sering digunakan bersamaan saat pencarian kursi.
+            // Query filter: where('venue_id', $venueId)->where('status', 'available')->where('category', $category)
+            // Tanpa index ini, MySQL harus melakukan full-table scan pada 100.000+ data kursi, yang akan menyebabkan latensi ("kurang tanggap").
+            $table->index(['venue_id', 'status', 'category'], 'idx_seats_venue_status_category');
         });
     }
 
