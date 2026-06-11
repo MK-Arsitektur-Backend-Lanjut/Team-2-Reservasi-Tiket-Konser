@@ -12,6 +12,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - konser_network
 
@@ -57,3 +59,4 @@ networks:
 
 volumes:
   db_data:
+  redis_data:
