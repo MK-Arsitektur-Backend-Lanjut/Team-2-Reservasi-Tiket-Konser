@@ -7,6 +7,10 @@ use App\Models\Seat;
 interface SeatRepositoryInterface
 {
     public function getAvailableSeats($venueId, $category = null);
+    
+    // [OPTIMASI: KONTRAK METHOD BARU]
+    // Deklarasi method baru untuk mengambil ringkasan jumlah kursi
+    public function getSeatSummary($venueId);
 
     public function updateStatus($seatId, $status);
 

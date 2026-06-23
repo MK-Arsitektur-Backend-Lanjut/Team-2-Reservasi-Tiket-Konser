@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $csvPath = base_path('tests/k6/users.csv');
+        $csvPath = base_path('tests/k6_dava/users.csv');
 
         // Mengimpor user langsung dari file CSV agar data user di database sinkron dengan k6 stress test
         if (file_exists($csvPath)) {

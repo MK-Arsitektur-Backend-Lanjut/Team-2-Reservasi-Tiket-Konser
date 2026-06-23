@@ -22,6 +22,13 @@ class SeatService
     {
         return $this->seatRepository->getAvailableSeats($venueId, $category);
     }
+
+    // [OPTIMASI: PENERUSAN METHOD KE REPOSITORY]
+    // Meneruskan request pemanggilan summary kursi ke dalam layer Repository.
+    public function getSeatSummary($venueId)
+    {
+        return $this->seatRepository->getSeatSummary($venueId);
+    }
     
     public function updateSeatStatus($seatId, $status)
     {
