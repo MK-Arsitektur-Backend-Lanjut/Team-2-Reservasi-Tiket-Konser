@@ -18,6 +18,9 @@ Route::middleware('auth:sanctum')->group(function (): void {
     // Venue & Seat
     Route::get('/venues', [VenueController::class, 'index']);
     Route::get('/venues/{id}', [VenueController::class, 'show']);
+    // [OPTIMASI: ROUTE BARU]
+    // Menambahkan route baru untuk mengambil ringkasan ketersediaan kursi di suatu venue
+    Route::get('/venues/{venueId}/seats/summary', [SeatController::class, 'summary']);
     Route::get('/venues/{venueId}/seats', [SeatController::class, 'index']);
 
     // Reservation & Queue Control

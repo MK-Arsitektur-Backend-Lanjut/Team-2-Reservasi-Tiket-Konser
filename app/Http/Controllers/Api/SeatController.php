@@ -41,4 +41,25 @@ class SeatController extends Controller
             ], 500);
         }
     }
+
+    // [OPTIMASI: ENDPOINT BARU UNTUK RINGKASAN]
+    // Endpoint ini ditambahkan untuk mengambil ringkasan (summary) ketersediaan kursi 
+    // berdasarkan venue.
+    public function summary($venueId)
+    {
+        try {
+            $summary = $this->seatService->getSeatSummary($venueId);
+            return response()->json([
+                'status' => true,
+                'message' => 'Berhasil mengambil ringkasan kursi',
+                'data' => $summary
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal mengambil ringkasan kursi',
+                'errors' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
