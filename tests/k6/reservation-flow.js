@@ -17,8 +17,11 @@ const users = new SharedArray("users", function () {
 const BASE_URL = "http://127.0.0.1:8000/api";
 
 export const options = {
-    vus: 100,
-    duration: "60s",
+    stages: [
+        { duration: "10s", target: 10 }, // ramp up
+        { duration: "20s", target: 30 }, // load test
+        { duration: "10s", target: 0 }, // ramp down
+    ],
 };
 
 export default function () {
@@ -69,16 +72,14 @@ export default function () {
 
     if (!queueOk) {
         console.log(`QUEUE FAIL: ${user.email}`);
-        console.log(queueRes.body);
         return;
     }
 
     const queueToken = JSON.parse(queueRes.body).data.token;
 
-    // SEMUA USER REBUTAN KURSI YANG SAMA
+    // SEAT REBUTAN
     const seatId = 9999;
 
-    // HOLD
     const holdRes = http.post(
         `${BASE_URL}/reservations/hold`,
         JSON.stringify({
